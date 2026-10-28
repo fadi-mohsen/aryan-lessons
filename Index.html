@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>مَرْحَباً بِكَ يَا أَرْيَان</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #e8f0fe, #d9e6f5);
+            font-family: 'Tajawal', 'Segoe UI', sans-serif;
+            padding: 25px 16px 45px;
+            min-height: 100vh;
+        }
+
+        /* رأس الصفحة */
+        .hero {
+            text-align: center;
+            background: linear-gradient(115deg, #1e6b5e, #0f5c4f);
+            padding: 25px 20px;
+            border-radius: 70px 70px 45px 45px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.3);
+            border: 4px solid #FFE0A3;
+            position: relative;
+            min-height: 160px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-image-container {
+            position: absolute;
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            border: 5px solid white;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+            overflow: hidden;
+            background: #c5e0d4;
+        }
+
+        .hero-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+            color: white;
+            text-shadow: 4px 4px 0 #0b4b3a;
+            font-weight: 900;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #FFF2CC;
+            background: #2a8a7ab3;
+            display: inline-block;
+            padding: 8px 25px;
+            border-radius: 60px;
+            margin-top: 15px;
+            font-weight: 700;
+        }
+
+        /* العناوين الرئيسية */
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #1e6b5e;
+            background: #FFF3DF;
+            display: block;
+            width: fit-content;
+            margin: 0 auto 25px auto;
+            padding: 10px 40px;
+            border-radius: 50px;
+            box-shadow: 0 6px 0 #d4b48c;
+        }
+
+        /* شبكة البطاقات */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 900px;
+            margin: 0 auto 50px auto;
+        }
+
+        /* تصميم البطاقة */
+        .card {
+            background: white;
+            border-radius: 45px;
+            padding: 25px 20px;
+            text-align: center;
+            text-decoration: none;
+            color: inherit;
+            border: 3px solid #e0e8e0;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            border-color: #FFB347;
+        }
+
+        /* ألوان البطاقات */
+        .card.lesson-card {
+            border-bottom: 8px solid #1e6b5e;
+        }
+        .card.test-card {
+            border-bottom: 8px solid #C62828;
+            background: #FFFDF7;
+        }
+
+        /* محتوى البطاقة */
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .card.lesson-card .card-icon { color: #1e6b5e; }
+        .card.test-card .card-icon { color: #C62828; }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #3e2a21;
+            margin-bottom: 10px;
+        }
+
+        .card-letters {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #8B5A2B;
+            background: #FFF8E1;
+            padding: 5px 25px;
+            border-radius: 30px;
+            margin-top: 10px;
+            letter-spacing: 5px;
+        }
+
+        .card-desc {
+            font-size: 1rem;
+            color: #888;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
+        /* الفوتر */
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #5D4037;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        /* التجاوب مع الشاشات الصغيرة */
+        @media (max-width: 600px) {
+            .hero-image-container {
+                width: 70px;
+                height: 70px;
+                left: 15px;
+            }
+            .hero h1 { font-size: 1.5rem; }
+            .hero { min-height: 120px; }
+            .grid-container { grid-template-columns: 1fr; }
+            .section-title { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- رأس الصفحة -->
+<div class="hero">
+    <div class="hero-image-container">
+        <img src="child.png" alt="صورة أريان" onerror="this.style.display='none';">
+    </div>
+    <h1>👋 أَهْلاً يَا بَطَل!</h1>
+    <p>اخْتَرْ الدَّرْسَ أَوِ الاخْتِبَارَ لِنَبْدَأَ اللَّعِبَ</p>
+</div>
+
+<!-- قسم الدروس -->
+<div class="section-title"><i class="fas fa-book-open"></i> الدُّرُوسُ</div>
+
+<div class="grid-container">
+    <!-- الدرس الأول -->
+    <a href="1AlifBaaTaa/FirstThreeLetters.html" class="card lesson-card">
+        <div class="card-icon"><i class="fas fa-font"></i></div>
+        <div class="card-title">الدَّرْسُ الأَوَّلُ</div>
+        <div class="card-letters">أ - ب - ت</div>
+        <div class="card-desc">تَعَلَّمْ الحُرُوفَ الثَّلاَثَةَ الأُولَى</div>
+    </a>
+
+    <!-- الدرس الثاني -->
+    <a href="2ThaaJeem7aa/ThaaJeem7aa.html" class="card lesson-card">
+        <div class="card-icon"><i class="fas fa-font"></i></div>
+        <div class="card-title">الدَّرْسُ الثَّانِي</div>
+        <div class="card-letters">ث - ج - ح</div>
+        <div class="card-desc">تَعَلَّمْ الحُرُوفَ الثَّلاَثَةَ التَّالِيَةَ</div>
+    </a>
+
+    <!-- الدرس الثالث -->
+    <a href="3KhaaDaalThaal/khaadaalthaal.html" class="card lesson-card">
+        <div class="card-icon"><i class="fas fa-font"></i></div>
+        <div class="card-title">الدَّرْسُ الثَّالِثُ</div>
+        <div class="card-letters">خ - د - ذ</div>
+        <div class="card-desc">تَعَلَّمْ الحُرُوفَ الثَّلاَثَةَ التَّالِيَةَ</div>
+    </a>
+
+    <!-- الدرس الرابع -->
+    <a href="4RaaZaiSeen/RaaZaiSeen.html" class="card lesson-card">
+        <div class="card-icon"><i class="fas fa-font"></i></div>
+        <div class="card-title">الدَّرْسُ الرَّابِعُ</div>
+        <div class="card-letters">ر - ز - س</div>
+        <div class="card-desc">تَعَلَّمْ الحُرُوفَ الثَّلاَثَةَ التَّالِيَةَ</div>
+    </a>
+
+    <!-- الدرس الخامس -->
+    <a href="5SheenSaadDaad/SheenSaadDaad.html" class="card lesson-card">
+        <div class="card-icon"><i class="fas fa-font"></i></div>
+        <div class="card-title">الدَّرْسُ الخَامِسُ</div>
+        <div class="card-letters">ش - ص - ض</div>
+        <div class="card-desc">تَعَلَّمْ الحُرُوفَ الثَّلاَثَةَ التَّالِيَةَ</div>
+    </a>
+</div>
+
+<!-- قسم الاختبارات -->
+<div class="section-title"><i class="fas fa-gamepad"></i> الاخْتِبَارَاتُ الكَبِيرَةُ</div>
+
+<div class="grid-container" style="grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));">
+    <!-- الاختبار الأول -->
+    <a href="TestFirst9Letters/TestFirst9Letters.html" class="card test-card">
+        <div class="card-icon"><i class="fas fa-star"></i></div>
+        <div class="card-title">الاخْتِبَارُ الأَوَّلُ</div>
+        <div class="card-letters" style="font-size: 1.2rem; letter-spacing: 1px;">الحُرُوفُ التِّسْعَةُ الأُولَى</div>
+        <div class="card-desc">اخْتَبِرْ نَفْسَكَ فِي: أ، ب، ت، ث، ج، ح، خ، د، ذ</div>
+    </a>
+
+    <!-- الاختبار الثاني -->
+    <a href="Test-4and5/Test4And5.html" class="card test-card">
+        <div class="card-icon"><i class="fas fa-star"></i></div>
+        <div class="card-title">الاخْتِبَارُ الثَّانِي</div>
+        <div class="card-letters" style="font-size: 1.2rem; letter-spacing: 1px;">الحُرُوفُ السِّتَّةُ الجَدِيدَةُ</div>
+        <div class="card-desc">اخْتَبِرْ نَفْسَكَ فِي: ر، ز، س، ش، ص، ض</div>
+    </a>
+</div>
+
+<footer>
+    🚀 كُلَّمَا لَعِبْتَ أَكْثَر، أَصْبَحْتَ بَطَلاً أَكْبَر! 🚀
+</footer>
+
+</body>
+</html>

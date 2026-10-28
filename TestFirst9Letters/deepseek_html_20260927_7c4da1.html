@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>لعبة الحروف - أريان</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #fef5e7, #f0e6d2);
+            font-family: 'Tajawal', 'Segoe UI', sans-serif;
+            padding: 20px 16px 45px;
+            min-height: 100vh;
+        }
+
+        .hero {
+            text-align: center;
+            background: linear-gradient(115deg, #8B5A2B, #6B3E1A);
+            padding: 20px;
+            border-radius: 70px 70px 45px 45px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.25);
+            border: 3px solid #FFE0A3;
+            position: relative;
+            min-height: 130px;
+        }
+
+        .hero-image-container {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            overflow: hidden;
+            background: #c5e0d4;
+        }
+
+        .hero-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero h1 {
+            font-size: 1.8rem;
+            color: white;
+            text-shadow: 3px 3px 0 #4a2a0e;
+            font-weight: 900;
+        }
+
+        .hero p {
+            font-size: 1rem;
+            color: #FFF2CC;
+            background: #a05e2cb3;
+            display: inline-block;
+            padding: 5px 20px;
+            border-radius: 60px;
+            margin-top: 8px;
+            font-weight: 700;
+        }
+
+        .sound-indicator {
+            background: #2a8a7a;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            padding: 6px 16px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            font-family: 'Tajawal';
+            margin-top: 5px;
+        }
+
+        .sound-indicator i {
+            margin-left: 5px;
+        }
+
+        .game-container {
+            background: white;
+            border-radius: 55px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 12px 20px rgba(0,0,0,0.08);
+            border: 2px solid #efd7ae;
+            max-width: 750px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .score-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            background: #FDF5E6;
+            padding: 12px 20px;
+            border-radius: 80px;
+            margin-bottom: 25px;
+        }
+
+        .score-box {
+            background: #FFE0A3;
+            padding: 5px 20px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: #5D4037;
+        }
+
+        .progress-text {
+            font-weight: 700;
+            background: #FFF3E0;
+            padding: 5px 20px;
+            border-radius: 40px;
+            color: #5D4037;
+        }
+
+        .reset-btn {
+            background: #FFCD94;
+            border: none;
+            border-radius: 60px;
+            padding: 8px 22px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            gap: 8px;
+            align-items: center;
+            font-family: 'Tajawal';
+            color: #5D4037;
+        }
+
+        .reset-btn:hover {
+            background: #FFB86B;
+            transform: scale(1.02);
+        }
+
+        /* الحرف الكبير */
+        .letter-display {
+            text-align: center;
+            font-size: 8rem;
+            font-weight: 900;
+            color: #8B5A2B;
+            background: #FFF8E1;
+            padding: 20px;
+            border-radius: 60px;
+            margin-bottom: 25px;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 4px solid #FFE0A3;
+            line-height: 1.2;
+            user-select: none;
+        }
+
+        .letter-display:hover {
+            transform: scale(1.02);
+            border-color: #FFB347;
+            background: #FFFDE7;
+        }
+
+        .letter-display:active {
+            transform: scale(0.98);
+        }
+
+        /* الصور */
+        .pictures-area {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .picture-card {
+            background: #FFFDF7;
+            border-radius: 45px;
+            padding: 15px 10px;
+            text-align: center;
+            border: 4px solid #e0e8e0;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        .picture-card:hover {
+            transform: scale(1.05);
+            border-color: #FFB347;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+
+        .picture-card:active {
+            transform: scale(0.97);
+        }
+
+        .picture-card .emoji {
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .picture-card .word {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #5D4037;
+        }
+
+        .picture-card .word .highlight {
+            color: #E65100;
+            background: #FFE0B2;
+            padding: 0 6px;
+            border-radius: 15px;
+        }
+
+        .picture-card:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .picture-card.correct-answer {
+            border-color: #2E7D32;
+            background: #D4EDC9;
+            box-shadow: 0 0 0 4px #2E7D32;
+        }
+
+        .picture-card.wrong-answer {
+            border-color: #C62828;
+            background: #FFE0D4;
+            box-shadow: 0 0 0 4px #C62828;
+        }
+
+        .feedback-message {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            text-align: center;
+        }
+
+        .feedback-correct {
+            background: #D4EDC9;
+            color: #1E5E1E;
+        }
+
+        .feedback-wrong {
+            background: #FFE0D4;
+            color: #B13E3E;
+        }
+
+        .next-btn {
+            background: #8B5A2B;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            padding: 15px 40px;
+            font-size: 1.3rem;
+            font-weight: 800;
+            font-family: 'Tajawal';
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 4px 0 #5A3A1A;
+            margin-top: 10px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 70%;
+        }
+
+        .next-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .next-btn:hover:not(:disabled) {
+            transform: scale(1.03);
+            background: #A5703E;
+        }
+
+        .final-result {
+            background: #E8F5E9;
+            padding: 25px;
+            border-radius: 50px;
+            margin-top: 20px;
+            font-size: 1.3rem;
+            font-weight: 800;
+            text-align: center;
+        }
+
+        .confetti {
+            font-size: 3rem;
+            animation: bounce 0.5s ease infinite alternate;
+        }
+
+        @keyframes bounce {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.2); }
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #5D4037;
+            font-weight: 700;
+        }
+
+        .celebrate {
+            animation: celebrateAnim 0.4s ease;
+        }
+
+        @keyframes celebrateAnim {
+            0% { transform: scale(1); background: #FFFDE7; }
+            50% { transform: scale(1.02); background: #FFF9C4; }
+            100% { transform: scale(1); background: transparent; }
+        }
+
+        @media (max-width: 600px) {
+            .letter-display {
+                font-size: 5rem;
+                padding: 15px;
+            }
+            .picture-card .emoji {
+                font-size: 2.5rem;
+            }
+            .picture-card .word {
+                font-size: 1rem;
+            }
+            .hero-image-container {
+                width: 60px;
+                height: 60px;
+                left: 10px;
+            }
+            .hero h1 {
+                font-size: 1.3rem;
+            }
+            .pictures-area {
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="hero">
+    <div class="hero-image-container">
+        <img src="aryan.jpg" alt="صورة أريان" id="heroImage" onerror="this.style.display='none'; document.getElementById('heroImageContainer').style.display='none'">
+    </div>
+    <h1>🎮 لُعْبَةُ الْحُرُوفِ 🎮</h1>
+    <p>أَيُّ صُورَةٍ تَبْدَأُ بِهَذَا الْحَرْفِ؟</p>
+    <div style="margin-top:5px;">
+        <button class="sound-indicator" onclick="testSound()"><i class="fas fa-volume-up"></i> اختبار الصوت</button>
+    </div>
+</div>
+
+<div class="game-container">
+    <div class="score-area">
+        <div class="score-box">⭐ <span id="scoreValue">0</span> / <span id="totalQuestions">9</span></div>
+        <div class="progress-text"><i class="fas fa-star" style="color:#FFD700;"></i> السُّؤَالُ: <span id="currentNumber">1</span> / 9</div>
+        <button class="reset-btn" id="resetGameBtn"><i class="fas fa-sync-alt"></i> لعبة جديدة</button>
+    </div>
+
+    <div id="gameContainer"></div>
+</div>
+
+<footer>
+    💡 اِضْغَطْ عَلَى الْحَرْفِ لِتَسْمَعَ صَوْتَهُ، ثُمَّ اخْتَرِ الصُّورَةَ الصَّحِيحَةَ
+</footer>
+
+<script>
+    // ===== تسجيل الصوت =====
+    const soundFiles = {
+        // أصوات الحروف
+        a: 'a.m4a',
+        ba: 'ba.m4a',
+        ta: 'ta.m4a',
+        tha: 'tha.m4a',
+        ja: 'ja.m4a',
+        ha: 'ha.m4a',
+        kha: 'kha.m4a',
+        da: 'da.m4a',
+        tha2: 'tha2.m4a',
+        // أصوات الكلمات
+        asad: 'asad.m4a',
+        bayt: 'bayt.m4a',
+        tamr: 'tamr.m4a',
+        tha3lab: 'tha3lab.m4a',
+        jamal: 'jamal.m4a',
+        hamama: 'hamama.m4a',
+        kharouf: 'kharouf.m4a',
+        dalw: 'dalw.m4a',
+        thahab: 'thahab.m4a',
+        // التغذية الراجعة
+        correct: 'correct.m4a',
+        wrong: 'wrong.m4a'
+    };
+
+    let currentAudio = null;
+
+    function playAudio(type) {
+        const file = soundFiles[type];
+        if (!file) {
+            console.log('ملف الصوت غير موجود:', type);
+            return;
+        }
+        try {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+            }
+            currentAudio = new Audio(file);
+            currentAudio.play().catch(e => {
+                console.log('تعذر تشغيل الصوت:', e);
+            });
+        } catch (e) {
+            console.log('خطأ في تشغيل الصوت:', e);
+        }
+    }
+
+    function testSound() {
+        playAudio('a');
+        setTimeout(() => playAudio('asad'), 1200);
+        setTimeout(() => playAudio('correct'), 2400);
+        setTimeout(() => playAudio('wrong'), 3600);
+    }
+
+    // ===== بيانات الحروف والكلمات =====
+    const lettersData = [
+        { letter: "أَ", letterAudio: "a", word: "أَسَد", wordAudio: "asad", emoji: "🦁", highlight: "أَ" },
+        { letter: "بَ", letterAudio: "ba", word: "بَيْت", wordAudio: "bayt", emoji: "🏠", highlight: "بَ" },
+        { letter: "تَ", letterAudio: "ta", word: "تَمْر", wordAudio: "tamr", emoji: "🌴", highlight: "تَ" },
+        { letter: "ثَ", letterAudio: "tha", word: "ثَعْلَب", wordAudio: "tha3lab", emoji: "🦊", highlight: "ثَ" },
+        { letter: "جَ", letterAudio: "ja", word: "جَمَل", wordAudio: "jamal", emoji: "🐪", highlight: "جَ" },
+        { letter: "حَ", letterAudio: "ha", word: "حَمَامَة", wordAudio: "hamama", emoji: "🕊️", highlight: "حَ" },
+        { letter: "خَ", letterAudio: "kha", word: "خَرُوف", wordAudio: "kharouf", emoji: "🐑", highlight: "خَ" },
+        { letter: "دَ", letterAudio: "da", word: "دَلْو", wordAudio: "dalw", emoji: "🪣", highlight: "دَ" },
+        { letter: "ذَ", letterAudio: "tha2", word: "ذَهَب", wordAudio: "thahab", emoji: "🥇", highlight: "ذَ" }
+    ];
+
+    let currentQuestions = [];
+    let userAnswers = [];
+    let currentIndex = 0;
+    let gameFinished = false;
+
+    const container = document.getElementById('gameContainer');
+    const resetBtn = document.getElementById('resetGameBtn');
+    const scoreSpan = document.getElementById('scoreValue');
+    const currentNumberSpan = document.getElementById('currentNumber');
+
+    function getRandomQuestions(arr, count) {
+        let shuffled = [...arr];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled.slice(0, count);
+    }
+
+    function startGame() {
+        currentQuestions = getRandomQuestions(lettersData, 9);
+        userAnswers = new Array(currentQuestions.length);
+        currentIndex = 0;
+        gameFinished = false;
+        renderQuestion();
+        updateStats();
+    }
+
+    function renderQuestion() {
+        if (currentIndex >= currentQuestions.length) {
+            finishGame();
+            return;
+        }
+
+        const q = currentQuestions[currentIndex];
+        const saved = userAnswers[currentIndex];
+
+        // إيجاد الصور الخاطئة (صورتان عشوائيتان من غير الصورة الصحيحة)
+        let otherLetters = lettersData.filter(l => l.letter !== q.letter);
+        // خلط
+        for (let i = otherLetters.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            [otherLetters[i], otherLetters[j]] = [otherLetters[j], otherLetters[i]];
+        }
+        let wrongOptions = otherLetters.slice(0, 2);
+
+        // تجميع الخيارات الثلاثة (الصحيح + الخاطئان)
+        let options = [q, wrongOptions[0], wrongOptions[1]];
+        // خلط
+        for (let i = options.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            [options[i], options[j]] = [options[j], options[i]];
+        }
+
+        let html = `
+            <div class="letter-display" id="letterDisplay" onclick="playAudio('${q.letterAudio}')">
+                ${q.letter}
+            </div>
+            <div class="pictures-area" id="picturesArea">
+        `;
+
+        options.forEach((opt, idx) => {
+            // تلوين الحرف الأول في الكلمة
+            let highlightedWord = opt.word.replace(opt.highlight, `<span class="highlight">${opt.highlight}</span>`);
+            html += `
+                <button class="picture-card" data-word="${opt.word}" data-idx="${idx}">
+                    <span class="emoji">${opt.emoji}</span>
+                    <span class="word">${highlightedWord}</span>
+                </button>
+            `;
+        });
+
+        html += `</div><div id="fbMsg" class="feedback-message"></div>`;
+        html += `<button class="next-btn" id="nextBtn" disabled>السُّؤَالُ التَّالِي 🌟</button>`;
+
+        container.innerHTML = html;
+        currentNumberSpan.innerText = currentIndex + 1;
+
+        // تشغيل صوت الحرف تلقائيًا
+        setTimeout(() => {
+            playAudio(q.letterAudio);
+        }, 500);
+
+        const btns = document.querySelectorAll('.picture-card');
+        const fbDiv = document.getElementById('fbMsg');
+        const nextBtn = document.getElementById('nextBtn');
+
+        if (saved) {
+            // عرض النتيجة السابقة
+            btns.forEach(btn => {
+                btn.disabled = true;
+                const word = btn.getAttribute('data-word');
+                if (word === q.word) {
+                    btn.classList.add('correct-answer');
+                } else if (word === saved.selected && !saved.isCorrect) {
+                    btn.classList.add('wrong-answer');
+                }
+            });
+            if (saved.isCorrect) {
+                fbDiv.innerHTML = `<div class="feedback-correct">✅ أَحْسَنْتَ يَا أَرْيَان!</div>`;
+            } else {
+                fbDiv.innerHTML = `<div class="feedback-wrong">❌ الصُّورَةُ الصَّحِيحَةُ: ${q.word}</div>`;
+            }
+            nextBtn.disabled = false;
+        } else {
+            btns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (gameFinished) return;
+                    const word = this.getAttribute('data-word');
+                    const isCorrect = (word === q.word);
+
+                    // تشغيل صوت الكلمة عند الضغط
+                    if (word === q.word) {
+                        playAudio(q.wordAudio);
+                    } else {
+                        // إيجاد الصوت المناسب للكلمة الخاطئة
+                        const wrongLetter = lettersData.find(l => l.word === word);
+                        if (wrongLetter) {
+                            playAudio(wrongLetter.wordAudio);
+                        }
+                    }
+
+                    userAnswers[currentIndex] = { isCorrect, selected: word, correctAnswer: q.word };
+
+                    // تمييز الإجابات
+                    btns.forEach(b => {
+                        b.disabled = true;
+                        const w = b.getAttribute('data-word');
+                        if (w === q.word) {
+                            b.classList.add('correct-answer');
+                        } else if (w === word && !isCorrect) {
+                            b.classList.add('wrong-answer');
+                        }
+                    });
+
+                    if (isCorrect) {
+                        // تشغيل صوت التحفيز
+                        setTimeout(() => {
+                            playAudio('correct');
+                        }, 800);
+                        fbDiv.innerHTML = `<div class="feedback-correct">🎉 أَحْسَنْتَ يَا بَطَلِي! ${q.letter}... ${q.word}</div>`;
+                        const card = document.getElementById('letterDisplay');
+                        if (card) {
+                            card.classList.add('celebrate');
+                            setTimeout(() => card.classList.remove('celebrate'), 400);
+                        }
+                    } else {
+                        // تشغيل صوت الخطأ
+                        setTimeout(() => {
+                            playAudio('wrong');
+                        }, 800);
+                        fbDiv.innerHTML = `<div class="feedback-wrong">😊 حَاوِلْ مَرَّةً أُخْرَى! الصُّورَةُ الصَّحِيحَةُ: ${q.word}</div>`;
+                    }
+
+                    nextBtn.disabled = false;
+                    updateStats();
+                });
+            });
+        }
+
+        nextBtn.onclick = () => {
+            if (gameFinished) return;
+            if (!userAnswers[currentIndex]) {
+                fbDiv.innerHTML = `<span style="color:#c0392b;">⚠️ اخْتَرْ صُورَةً أَوَّلًا ⚠️</span>`;
+                return;
+            }
+            if (currentIndex < currentQuestions.length - 1) {
+                currentIndex++;
+                renderQuestion();
+            } else {
+                finishGame();
+            }
+        };
+    }
+
+    function updateStats() {
+        let correct = userAnswers.filter(a => a && a.isCorrect === true).length;
+        scoreSpan.innerText = correct;
+    }
+
+    function finishGame() {
+        gameFinished = true;
+        const total = currentQuestions.length;
+        const correct = userAnswers.filter(a => a && a.isCorrect === true).length;
+
+        let msg = "";
+        let emoji = "";
+        if (correct === total) {
+            msg = "🎉 مُمْتَازٌ يَا أَرْيَان! عَرَفْتَ كُلَّ الْحُرُوفِ! أَنْتَ بَطَلٌ حَقًّا!";
+            emoji = "🏆🌟";
+        } else if (correct >= 6) {
+            msg = "🌟 جَيِّدٌ جِدًّا! تَعَرَّفْتَ عَلَى مُعْظَمِ الْحُرُوفِ!";
+            emoji = "📚✨";
+        } else {
+            msg = "💪 لَا تَقْلَقْ! كُلُّ بِدَايَةٍ صَعْبَةٌ. اِلْعَبْ مَرَّةً أُخْرَى!";
+            emoji = "🌈⭐";
+        }
+
+        let html = `
+            <div style="text-align:center;">
+                <div class="confetti">${emoji}</div>
+                <div class="final-result">
+                    ${msg}<br>
+                    <span style="font-size:1rem;">نَتَيْجَتُكَ: ${correct} مِنْ ${total}</span>
+                    <br>
+                    <button class="next-btn" onclick="location.reload()" style="margin-top:15px; width:auto; padding:12px 30px; font-size:1rem;">
+                        🔄 اِلْعَبْ مَرَّةً أُخْرَى
+                    </button>
+                </div>
+            </div>
+        `;
+
+        container.innerHTML = html;
+
+        if (correct === total) {
+            playAudio('correct');
+        }
+    }
+
+    resetBtn.addEventListener('click', function() {
+        startGame();
+    });
+
+    startGame();
+</script>
+</body>
+</html>
