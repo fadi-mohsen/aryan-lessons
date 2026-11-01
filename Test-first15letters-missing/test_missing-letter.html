@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>اختبار الحرف الناقص - أريان</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: linear-gradient(145deg, #fef5e7, #f0e6d2);
+            font-family: 'Tajawal', 'Segoe UI', sans-serif;
+            padding: 20px 16px 45px;
+            min-height: 100vh;
+        }
+
+        .hero {
+            text-align: center;
+            background: linear-gradient(115deg, #8B5A2B, #6B3E1A);
+            padding: 20px;
+            border-radius: 70px 70px 45px 45px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.25);
+            border: 3px solid #FFE0A3;
+            position: relative;
+            min-height: 130px;
+        }
+
+        .hero-image-container {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            overflow: hidden;
+            background: #c5e0d4;
+        }
+
+        .hero-image-container img { width: 100%; height: 100%; object-fit: cover; }
+
+        .hero h1 { font-size: 1.8rem; color: white; text-shadow: 3px 3px 0 #4a2a0e; font-weight: 900; }
+        .hero p { font-size: 1rem; color: #FFF2CC; background: #a05e2cb3; display: inline-block; padding: 5px 20px; border-radius: 60px; margin-top: 8px; font-weight: 700; }
+
+        .sound-indicator {
+            background: #2a8a7a; color: white; border: none; border-radius: 60px;
+            padding: 6px 16px; font-size: 0.8rem; cursor: pointer; font-family: 'Tajawal'; margin-top: 5px;
+        }
+        .sound-indicator i { margin-left: 5px; }
+
+        .game-container {
+            background: white; border-radius: 55px; padding: 25px; margin-bottom: 30px;
+            box-shadow: 0 12px 20px rgba(0,0,0,0.08); border: 2px solid #efd7ae;
+            max-width: 750px; margin-left: auto; margin-right: auto;
+        }
+
+        .score-area {
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
+            gap: 15px; background: #FDF5E6; padding: 12px 20px; border-radius: 80px; margin-bottom: 25px;
+        }
+
+        .score-box { background: #FFE0A3; padding: 5px 20px; border-radius: 50px; font-weight: 800; font-size: 1.2rem; color: #5D4037; }
+        .progress-text { font-weight: 700; background: #FFF3E0; padding: 5px 20px; border-radius: 40px; color: #5D4037; }
+
+        .reset-btn {
+            background: #FFCD94; border: none; border-radius: 60px; padding: 8px 22px;
+            font-weight: bold; cursor: pointer; transition: 0.2s; display: inline-flex;
+            gap: 8px; align-items: center; font-family: 'Tajawal'; color: #5D4037;
+        }
+        .reset-btn:hover { background: #FFB86B; transform: scale(1.02); }
+
+        /* منطقة السؤال */
+        .question-area {
+            text-align: center;
+            padding: 10px;
+        }
+
+        .picture-display {
+            font-size: 6rem;
+            margin-bottom: 15px;
+            line-height: 1;
+        }
+
+        .word-display {
+            font-size: 4rem;
+            font-weight: 900;
+            color: #8B5A2B;
+            background: #FFF8E1;
+            padding: 20px;
+            border-radius: 40px;
+            display: inline-block;
+            margin-bottom: 25px;
+            letter-spacing: 2px;
+            border: 3px solid #FFE0A3;
+        }
+
+        .missing-letter-blank {
+            display: inline-block;
+            width: 70px;
+            height: 70px;
+            border-bottom: 6px solid #8B5A2B;
+            margin: 0 5px;
+            border-radius: 10px;
+            background: #FFF3E0;
+            vertical-align: middle;
+        }
+
+        /* منطقة الخيارات (الحروف) */
+        .options-area {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .letter-option-btn {
+            background: #FFFDF7;
+            border: 4px solid #e0e8e0;
+            border-radius: 60px;
+            padding: 15px 30px;
+            font-size: 3.5rem;
+            font-weight: 900;
+            font-family: 'Tajawal';
+            color: #8B5A2B;
+            cursor: pointer;
+            transition: 0.2s;
+            min-width: 100px;
+            box-shadow: 0 6px 0 #c5c5c5;
+        }
+
+        .letter-option-btn:hover {
+            transform: scale(1.05) translateY(-3px);
+            border-color: #FFB347;
+            box-shadow: 0 10px 0 #c5c5c5;
+        }
+
+        .letter-option-btn:active {
+            transform: scale(0.98) translateY(3px);
+            box-shadow: 0 2px 0 #c5c5c5;
+        }
+
+        .letter-option-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .letter-option-btn.correct-answer {
+            border-color: #2E7D32;
+            background: #D4EDC9;
+            box-shadow: 0 6px 0 #2E7D32;
+        }
+
+        .letter-option-btn.wrong-answer {
+            border-color: #C62828;
+            background: #FFE0D4;
+            box-shadow: 0 6px 0 #C62828;
+        }
+
+        .feedback-message {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            text-align: center;
+        }
+
+        .feedback-correct { background: #D4EDC9; color: #1E5E1E; }
+        .feedback-wrong { background: #FFE0D4; color: #B13E3E; }
+
+        .next-btn {
+            background: #8B5A2B; color: white; border: none; border-radius: 60px;
+            padding: 15px 40px; font-size: 1.3rem; font-weight: 800; font-family: 'Tajawal';
+            cursor: pointer; transition: 0.2s; box-shadow: 0 4px 0 #5A3A1A;
+            margin-top: 10px; display: block; margin-left: auto; margin-right: auto; width: 70%;
+        }
+
+        .next-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .next-btn:hover:not(:disabled) { transform: scale(1.03); background: #A5703E; }
+
+        .final-result { background: #E8F5E9; padding: 25px; border-radius: 50px; margin-top: 20px; font-size: 1.3rem; font-weight: 800; text-align: center; }
+        .confetti { font-size: 3rem; animation: bounce 0.5s ease infinite alternate; }
+        @keyframes bounce { 0% { transform: scale(1); } 100% { transform: scale(1.2); } }
+
+        footer { text-align: center; margin-top: 20px; color: #5D4037; font-weight: 700; }
+
+        .celebrate { animation: celebrateAnim 0.4s ease; }
+        @keyframes celebrateAnim {
+            0% { transform: scale(1); background: #FFFDE7; }
+            50% { transform: scale(1.02); background: #FFF9C4; }
+            100% { transform: scale(1); background: transparent; }
+        }
+
+        @media (max-width: 600px) {
+            .picture-display { font-size: 4rem; }
+            .word-display { font-size: 2.5rem; padding: 15px; }
+            .missing-letter-blank { width: 50px; height: 50px; border-bottom-width: 4px; }
+            .letter-option-btn { font-size: 2.5rem; padding: 10px 20px; min-width: 80px; }
+            .hero-image-container { width: 60px; height: 60px; left: 10px; }
+            .hero h1 { font-size: 1.3rem; }
+            .options-area { gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="hero">
+    <div class="hero-image-container">
+        <img src="child.png" alt="صورة أريان" id="heroImage" onerror="this.style.display='none'; document.getElementById('heroImageContainer').style.display='none'">
+    </div>
+    <h1>🧩 اختبار الحرف الناقص 🧩</h1>
+    <p>أَكْمِلِ الْكَلِمَةَ بِالْحَرْفِ الصَّحِيحِ</p>
+    <div style="margin-top:5px;">
+        <button class="sound-indicator" onclick="testSound()"><i class="fas fa-volume-up"></i> اختبار الصوت</button>
+    </div>
+</div>
+
+<div class="game-container">
+    <div class="score-area">
+        <div class="score-box">⭐ <span id="scoreValue">0</span> / <span id="totalQuestions">15</span></div>
+        <div class="progress-text"><i class="fas fa-star" style="color:#FFD700;"></i> السُّؤَالُ: <span id="currentNumber">1</span> / 15</div>
+        <button class="reset-btn" id="resetGameBtn"><i class="fas fa-sync-alt"></i> إعادة</button>
+    </div>
+
+    <div id="gameContainer"></div>
+</div>
+
+<footer>
+    💡 رَكِّزْ فِي الصُّورَةِ، وَاخْتَرِ الْحَرْفَ النَّاقِصَ. النَّتِيجَةُ فِي النِّهَايَةِ.
+</footer>
+
+<script>
+    // ===== تسجيل الصوت =====
+    const soundFiles = {
+        // أصوات الحروف
+        a: 'a.m4a', ba: 'ba.m4a', ta: 'ta.m4a', tha: 'tha.m4a', ja: 'ja.m4a',
+        ha: 'ha.m4a', kha: 'kha.m4a', da: 'da.m4a', tha2: 'tha2.m4a',
+        rah: 'Rah.m4a', zah: 'Zah.m4a', sah: 'Sah.m4a', sha: 'Sha.m4a', sah1: 'Sah-1.m4a', dah: 'Dah.m4a',
+        // التغذية الراجعة
+        correct: 'correctar.m4a', wrong: 'wrongar.m4a', victory: 'finish.mp3'
+    };
+
+    let currentAudio = null;
+    let victoryAudio = null;
+
+    function playAudio(type, callback) {
+        const file = soundFiles[type];
+        if (!file) { if (callback) callback(); return; }
+        try {
+            if (currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; }
+            currentAudio = new Audio(file);
+            currentAudio.play().catch(e => console.log('تعذر تشغيل الصوت:', e));
+            if (callback) { currentAudio.onended = callback; }
+        } catch (e) { if (callback) callback(); }
+    }
+
+    function playVictoryMusic() {
+        if (!soundFiles.victory) return;
+        try {
+            if (victoryAudio) { victoryAudio.pause(); victoryAudio.currentTime = 0; }
+            victoryAudio = new Audio(soundFiles.victory);
+            victoryAudio.play().catch(e => console.log('تعذر:', e));
+        } catch (e) { console.log('خطأ:', e); }
+    }
+
+    function stopVictoryMusic() {
+        if (victoryAudio) { victoryAudio.pause(); victoryAudio.currentTime = 0; victoryAudio = null; }
+    }
+
+    function testSound() {
+        playAudio('a');
+        setTimeout(() => playAudio('correct'), 1200);
+        setTimeout(() => playAudio('wrong'), 2400);
+    }
+
+    // ===== بيانات الحروف الـ 15 =====
+    const lettersData = [
+        { emoji: "🦁", fullWord: "أَسَد", blankWord: "ـَسَد", letter: "أ", letterAudio: "a", options: ["أ", "ب", "ت"] },
+        { emoji: "🏠", fullWord: "بَيْت", blankWord: "ـَيْت", letter: "ب", letterAudio: "ba", options: ["ت", "ب", "ج"] },
+        { emoji: "🌴", fullWord: "تَمْر", blankWord: "ـَمْر", letter: "ت", letterAudio: "ta", options: ["ث", "ت", "أ"] },
+        { emoji: "🦊", fullWord: "ثَعْلَب", blankWord: "ـَعْلَب", letter: "ث", letterAudio: "tha", options: ["ب", "ث", "ج"] },
+        { emoji: "🐪", fullWord: "جَمَل", blankWord: "ـَمَل", letter: "ج", letterAudio: "ja", options: ["ج", "ح", "ت"] },
+        { emoji: "🕊️", fullWord: "حَمَامَة", blankWord: "ـَمَامَة", letter: "ح", letterAudio: "ha", options: ["خ", "ح", "ج"] },
+        { emoji: "🐑", fullWord: "خَرُوف", blankWord: "ـَرُوف", letter: "خ", letterAudio: "kha", options: ["خ", "ح", "د"] },
+        { emoji: "🪣", fullWord: "دَلْو", blankWord: "ـَلْو", letter: "د", letterAudio: "da", options: ["ذ", "ر", "د"] },
+        { emoji: "🥇", fullWord: "ذَهَب", blankWord: "ـَهَب", letter: "ذ", letterAudio: "tha2", options: ["د", "ذ", "ز"] },
+        { emoji: "👨", fullWord: "رَجُل", blankWord: "ـَجُل", letter: "ر", letterAudio: "rah", options: ["ز", "ر", "د"] },
+        { emoji: "🦒", fullWord: "زَرَافَة", blankWord: "ـَرَافَة", letter: "ز", letterAudio: "zah", options: ["ر", "ز", "س"] },
+        { emoji: "🐟", fullWord: "سَمَكَة", blankWord: "ـَمَكَة", letter: "س", letterAudio: "sah", options: ["ش", "س", "ص"] },
+        { emoji: "🌳", fullWord: "شَجَرَة", blankWord: "ـَجَرَة", letter: "ش", letterAudio: "sha", options: ["س", "ش", "ص"] },
+        { emoji: "🦅", fullWord: "صَقْر", blankWord: "ـَقْر", letter: "ص", letterAudio: "sah1", options: ["ض", "ص", "س"] },
+        { emoji: "💡", fullWord: "ضَوْء", blankWord: "ـَوْء", letter: "ض", letterAudio: "dah", options: ["ص", "ض", "ط"] }
+    ];
+
+    let currentQuestions = [];
+    let userAnswers = [];
+    let currentIndex = 0;
+    let gameFinished = false;
+
+    const container = document.getElementById('gameContainer');
+    const resetBtn = document.getElementById('resetGameBtn');
+    const scoreSpan = document.getElementById('scoreValue');
+    const currentNumberSpan = document.getElementById('currentNumber');
+
+    function getRandomQuestions(arr, count) {
+        let shuffled = [...arr];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled.slice(0, count);
+    }
+
+    function startGame() {
+        stopVictoryMusic();
+        currentQuestions = getRandomQuestions(lettersData, 15);
+        userAnswers = new Array(currentQuestions.length);
+        currentIndex = 0;
+        gameFinished = false;
+        renderQuestion();
+        updateStats();
+    }
+
+    function renderQuestion() {
+        if (currentIndex >= currentQuestions.length) {
+            finishGame();
+            return;
+        }
+
+        const q = currentQuestions[currentIndex];
+        const saved = userAnswers[currentIndex];
+
+        // خلط الخيارات
+        let shuffledOptions = [...q.options];
+        for (let i = shuffledOptions.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            [shuffledOptions[i], shuffledOptions[j]] = [shuffledOptions[j], shuffledOptions[i]];
+        }
+
+        let html = `
+            <div class="question-area" id="qArea">
+                <div class="picture-display">${q.emoji}</div>
+                <div class="word-display">
+                    ${q.blankWord.replace('ـ', '<span class="missing-letter-blank"></span>')}
+                </div>
+                <div class="options-area" id="optsArea">
+        `;
+
+        shuffledOptions.forEach(opt => {
+            html += `<button class="letter-option-btn" data-opt="${opt}">${opt}</button>`;
+        });
+
+        html += `
+                </div>
+                <div id="fbMsg" class="feedback-message"></div>
+                <button class="next-btn" id="nextBtn" disabled>السُّؤَالُ التَّالِي 🌟</button>
+            </div>
+        `;
+
+        container.innerHTML = html;
+        currentNumberSpan.innerText = currentIndex + 1;
+
+        const btns = document.querySelectorAll('.letter-option-btn');
+        const fbDiv = document.getElementById('fbMsg');
+        const nextBtn = document.getElementById('nextBtn');
+
+        if (saved) {
+            // عرض النتيجة السابقة
+            btns.forEach(btn => {
+                btn.disabled = true;
+                const opt = btn.getAttribute('data-opt');
+                if (opt === q.letter) {
+                    btn.classList.add('correct-answer');
+                } else if (opt === saved.selected && !saved.isCorrect) {
+                    btn.classList.add('wrong-answer');
+                }
+            });
+            if (saved.isCorrect) {
+                fbDiv.innerHTML = `<div class="feedback-correct">✅ أَحْسَنْتَ يَا أَرْيَان!</div>`;
+            } else {
+                fbDiv.innerHTML = `<div class="feedback-wrong">❌ الصُّورَةُ الصَّحِيحَةُ: ${q.fullWord}</div>`;
+            }
+            nextBtn.disabled = false;
+        } else {
+            btns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (gameFinished) return;
+                    const selected = this.getAttribute('data-opt');
+                    const isCorrect = (selected === q.letter);
+
+                    userAnswers[currentIndex] = { isCorrect, selected, correctAnswer: q.letter };
+
+                    // تشغيل صوت الحرف الذي تم اختياره
+                    playAudio(q.letterAudio); // Note: you can make it play the selected letter's audio if you map it, but we play the correct one for simplicity
+
+                    btns.forEach(b => {
+                        b.disabled = true;
+                        const opt = b.getAttribute('data-opt');
+                        if (opt === q.letter) {
+                            b.classList.add('correct-answer');
+                        } else if (opt === selected && !isCorrect) {
+                            b.classList.add('wrong-answer');
+                        }
+                    });
+
+                    if (isCorrect) {
+                        setTimeout(() => playAudio('correct'), 500);
+                        fbDiv.innerHTML = `<div class="feedback-correct">🎉 أَحْسَنْتَ يَا بَطَلِي! ${q.letter}... ${q.fullWord}</div>`;
+                        const card = document.getElementById('qArea');
+                        if (card) {
+                            card.classList.add('celebrate');
+                            setTimeout(() => card.classList.remove('celebrate'), 400);
+                        }
+                    } else {
+                        setTimeout(() => playAudio('wrong'), 500);
+                        fbDiv.innerHTML = `<div class="feedback-wrong">😊 حَاوِلْ مَرَّةً أُخْرَى! الْكَلِمَةُ: ${q.fullWord}</div>`;
+                    }
+
+                    nextBtn.disabled = false;
+                    updateStats();
+                });
+            });
+        }
+
+        nextBtn.onclick = () => {
+            if (gameFinished) return;
+            if (!userAnswers[currentIndex]) {
+                fbDiv.innerHTML = `<span style="color:#c0392b;">⚠️ اخْتَرْ حَرْفاً أَوَّلًا ⚠️</span>`;
+                return;
+            }
+            if (currentIndex < currentQuestions.length - 1) {
+                currentIndex++;
+                renderQuestion();
+            } else {
+                finishGame();
+            }
+        };
+    }
+
+    function updateStats() {
+        let correct = userAnswers.filter(a => a && a.isCorrect === true).length;
+        scoreSpan.innerText = correct;
+    }
+
+    function finishGame() {
+        gameFinished = true;
+        const total = currentQuestions.length;
+        const correct = userAnswers.filter(a => a && a.isCorrect === true).length;
+
+        let msg = "";
+        let emoji = "";
+        
+        // التحقق من العلامة الكاملة
+        if (correct === total) {
+            msg = "🎉 مُمْتَازٌ يَا أَرْيَان! عَرَفْتَ كُلَّ الْحُرُوفِ! أَنْتَ بَطَلٌ حَقًّا!";
+            emoji = "🏆🌟";
+            playVictoryMusic(); // تشغيل موسيقى الفوز فقط عند العلامة الكاملة
+        } else if (correct >= 10) {
+            msg = "🌟 جَيِّدٌ جِدًّا! تَعَرَّفْتَ عَلَى مُعْظَمِ الْحُرُوفِ!";
+            emoji = "📚✨";
+        } else {
+            msg = "💪 لَا تَقْلَقْ! كُلُّ بِدَايَةٍ صَعْبَةٌ. اِلْعَبْ مَرَّةً أُخْرَى!";
+            emoji = "🌈⭐";
+        }
+
+        let html = `
+            <div style="text-align:center;">
+                <div class="confetti">${emoji}</div>
+                <div class="final-result">
+                    ${msg}<br>
+                    <span style="font-size:1rem;">نَتَيْجَتُكَ: ${correct} مِنْ ${total}</span>
+                    <br>
+                    <button class="next-btn" onclick="location.reload()" style="margin-top:15px; width:auto; padding:12px 30px; font-size:1rem;">
+                        🔄 اِلْعَبْ مَرَّةً أُخْرَى
+                    </button>
+                </div>
+            </div>
+        `;
+
+        container.innerHTML = html;
+    }
+
+    resetBtn.addEventListener('click', function() {
+        stopVictoryMusic();
+        startGame();
+    });
+
+    startGame();
+</script>
+</body>
+</html>
